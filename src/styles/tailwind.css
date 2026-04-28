@@ -1,0 +1,285 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --cockpit-black: #0D0D0D;
+  --woven-graphite: #1A1A2E;
+  --signal-green: #00E676;
+  --signal-green-dim: rgba(0, 230, 118, 0.15);
+  --signal-green-glow: rgba(0, 230, 118, 0.4);
+  --titanium-white: #E0E0E0;
+  --card-border: rgba(255,255,255,0.07);
+  --card-bg: rgba(26, 26, 46, 0.5);
+  --muted: rgba(224,224,224,0.45);
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Manrope', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #0D0D0D;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #0D0D0D;
+  color: #E0E0E0;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ─── Typography ─── */
+.font-mono { font-family: var(--font-mono); }
+
+/* ─── Signal green glow ─── */
+.signal-glow {
+  box-shadow: 0 0 20px rgba(0,230,118,0.3), 0 0 60px rgba(0,230,118,0.1);
+}
+.signal-text-glow {
+  text-shadow: 0 0 20px rgba(0,230,118,0.6);
+}
+
+/* ─── Card styles ─── */
+.carbon-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.carbon-card:hover {
+  border-color: rgba(0,230,118,0.25);
+  box-shadow: 0 0 30px rgba(0,230,118,0.08), 0 8px 40px rgba(0,0,0,0.6);
+  transform: translateY(-2px);
+}
+
+/* ─── Flip card ─── */
+.flip-card { perspective: 1000px; }
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.flip-card:hover .flip-card-inner,
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+}
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* ─── Trigger line animation ─── */
+@keyframes dashFlow {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+.trigger-line {
+  stroke-dasharray: 8 4;
+  animation: dashFlow 1.5s linear infinite;
+}
+
+/* ─── Blinking cursor ─── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.blink-cursor {
+  animation: blink 1s ease-in-out infinite;
+}
+
+/* ─── Live ticker ─── */
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track {
+  animation: tickerScroll 25s linear infinite;
+  will-change: transform;
+}
+
+/* ─── Counter pulse ─── */
+@keyframes counterPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.counter-pulse {
+  animation: counterPulse 2s ease-in-out infinite;
+}
+
+/* ─── Micro-animations ─── */
+@keyframes lockSeal {
+  0% { transform: translateY(-4px) rotate(-8deg); opacity: 0.4; }
+  60% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.lock-animate:hover .lock-icon {
+  animation: lockSeal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes calendarSlide {
+  0% { transform: translateX(-20px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+.calendar-animate:hover .cal-slot {
+  animation: calendarSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes barClimb {
+  0% { height: 20%; }
+  100% { height: var(--bar-target); }
+}
+.bar-animate:hover .bar-item {
+  animation: barClimb 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes abSplit {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.ab-animate:hover .ab-variant {
+  animation: abSplit 0.4s ease forwards;
+}
+
+@keyframes branchPulse {
+  0%, 100% { border-color: rgba(0,230,118,0.2); }
+  50% { border-color: rgba(0,230,118,0.7); }
+}
+.branch-animate:hover .branch-line {
+  animation: branchPulse 1s ease infinite;
+}
+
+@keyframes pingDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+.ping-dot {
+  animation: pingDot 1.2s ease-in-out infinite;
+}
+
+/* ─── Scroll reveal ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ─── Sticky bottom bar ─── */
+.sticky-cta {
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sticky-cta.visible {
+  transform: translateY(0);
+}
+
+/* ─── Gradient text ─── */
+.gradient-text {
+  background: linear-gradient(135deg, #E0E0E0 0%, #00E676 50%, #E0E0E0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Form input ─── */
+.console-input {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #E0E0E0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.console-input:focus {
+  outline: none;
+  border-color: rgba(0,230,118,0.5);
+  box-shadow: 0 0 0 3px rgba(0,230,118,0.08);
+}
+.console-input::placeholder { color: rgba(224,224,224,0.3); }
+.console-input option { background: #1A1A2E; color: #E0E0E0; }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0D0D0D; }
+::-webkit-scrollbar-thumb { background: rgba(0,230,118,0.3); border-radius: 2px; }
+
+/* ─── Slider ─── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 1px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00E676;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,230,118,0.5);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00E676;
+  cursor: pointer;
+  border: none;
+}
+
+/* ─── EHR logo pill ─── */
+.ehr-pill {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.ehr-pill:hover {
+  border-color: rgba(0,230,118,0.3);
+  background: rgba(0,230,118,0.05);
+}
+
+/* ─── Ambient glow backgrounds ─── */
+.glow-bg-green {
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,230,118,0.08) 0%, transparent 70%);
+}
+.glow-bg-blue {
+  background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(26,26,46,0.6) 0%, transparent 70%);
+}
+
+@media (max-width: 768px) {
+  .flip-card { height: 220px; }
+}
