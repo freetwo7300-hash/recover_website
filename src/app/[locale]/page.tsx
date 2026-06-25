@@ -8,6 +8,9 @@ import IntegrationsSection from './components/IntegrationsSection'
 import LeadFormSection from './components/LeadFormSection'
 import ScrollController from './components/ScrollController'
 
+// Use dynamic rendering during build to avoid next-intl SSG issues
+export const dynamic = 'force-dynamic'
+
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-cockpit relative">

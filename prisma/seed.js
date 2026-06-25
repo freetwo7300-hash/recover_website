@@ -1,6 +1,55 @@
 const { PrismaClient } = require('@prisma/client')
+const bcrypt = require('bcryptjs')
 
 const prisma = new PrismaClient()
+
+async function seedOrganization() {
+  const organization = await prisma.organization.upsert({
+    where: { slug: 'recover-demo' },
+    update: {},
+    create: {
+      name: 'Recover Demo',
+      slug: 'recover-demo',
+    },
+  })
+  console.log('✓ Organization seeded:', organization.name)
+  return organization
+}
+
+async function seedUsers(organizationId) {
+  const users = [
+    {
+      email: 'admin@recover.demo',
+      name: 'Admin User',
+      passwordHash: await bcrypt.hash('DemoPassword123!', 10),
+      role: 'ADMIN',
+      organizationId,
+    },
+    {
+      email: 'manager@recover.demo',
+      name: 'Manager User',
+      passwordHash: await bcrypt.hash('DemoPassword123!', 10),
+      role: 'MANAGER',
+      organizationId,
+    },
+    {
+      email: 'member@recover.demo',
+      name: 'Member User',
+      passwordHash: await bcrypt.hash('DemoPassword123!', 10),
+      role: 'MEMBER',
+      organizationId,
+    },
+  ]
+
+  for (const user of users) {
+    await prisma.user.upsert({
+      where: { email: user.email },
+      update: user,
+      create: user,
+    })
+  }
+  console.log('✓ Users seeded:', users.length)
+}
 
 async function seedFeatures() {
   const features = [
@@ -114,10 +163,10 @@ async function seedMetrics() {
 
 async function seedCertifications() {
   const certifications = [
-    { icon: '🔐', label: 'HIPAA', sublabel: 'BAA-covered', order: 0 },
-    { icon: '✅', label: 'SOC 2 Type II', sublabel: 'Annually audited', order: 1 },
-    { icon: '📋', label: 'HITRUST', sublabel: 'In progress', order: 2 },
-    { icon: '🔐', label: 'AES-256 Encryption', sublabel: 'At rest & transit', order: 3 },
+    { icon: 'LockClosedIcon', label: 'HIPAA', sublabel: 'BAA-covered', order: 0 },
+    { icon: 'CheckCircleIcon', label: 'SOC 2 Type II', sublabel: 'Annually audited', order: 1 },
+    { icon: 'DocumentIcon', label: 'HITRUST', sublabel: 'In progress', order: 2 },
+    { icon: 'LockClosedIcon', label: 'AES-256 Encryption', sublabel: 'At rest & transit', order: 3 },
   ]
 
   await prisma.certification.deleteMany({})
@@ -152,6 +201,11 @@ async function main() {
   console.log('🌱 Starting seed...')
 
   try {
+    // Seed multi-tenant infrastructure
+    const organization = await seedOrganization()
+    await seedUsers(organization.id)
+
+    // Seed content models
     await seedFeatures()
     await seedIntegrations()
     await seedStats()

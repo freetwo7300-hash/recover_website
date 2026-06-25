@@ -41,12 +41,13 @@ export default async function RootLayout({
     notFound()
   }
 
-  const messages = await getMessages()
+  // Use await to properly handle getMessages during SSG
+  const messages = await getMessages({ locale } as any)
 
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider messages={messages} locale={locale}>
           <SessionProvider>
             {children}
           </SessionProvider>

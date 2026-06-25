@@ -11,7 +11,7 @@ export interface Feature {
 
 export interface Integration {
   name: string
-  icon?: string
+  icon?: string | null
 }
 
 export interface Stat {
@@ -51,7 +51,7 @@ export const getIntegrations = async (): Promise<Integration[]> => {
 
   return integrations.map((i) => ({
     name: i.name,
-    icon: i.icon,
+    icon: i.icon || undefined,
   }))
 }
 
