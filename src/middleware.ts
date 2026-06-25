@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const locales = ['en', 'ar']
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   // Get the pathname
   const pathname = request.nextUrl.pathname
 
@@ -19,10 +19,8 @@ export function middleware(request: NextRequest) {
     )
   }
 
-  // Run NextAuth middleware
-  return auth((req) => {
-    return NextResponse.next()
-  })(request as any)
+  // NextAuth handles authentication
+  return NextResponse.next()
 }
 
 export const config = {
