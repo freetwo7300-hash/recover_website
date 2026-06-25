@@ -2,7 +2,7 @@ import React from 'react'
 import type { Metadata, Viewport } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages, setRequestLocale } from 'next-intl/server'
+import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { locales } from '../../../i18n.config'
 import '../../styles/tailwind.css'
@@ -33,6 +33,23 @@ interface LayoutProps {
   }>
 }
 
+// Load messages directly without going through getRequestConfig
+async function loadMessages(locale: string) {
+  try {
+    const messages = (await import(`../../messages/${locale}.json`)).default
+    return messages
+  } catch (error) {
+    console.warn(`Messages not found for locale: ${locale}, falling back to English`)
+    try {
+      const fallback = (await import(`../../messages/en.json`)).default
+      return fallback
+    } catch (fallbackError) {
+      console.error('Failed to load fallback English messages')
+      return {}
+    }
+  }
+}
+
 export default async function RootLayout({
   children,
   params,
@@ -47,8 +64,8 @@ export default async function RootLayout({
   // Set request locale for next-intl server functions
   setRequestLocale(locale)
 
-  // Get messages - next-intl will use the locale set above
-  const messages = await getMessages()
+  // Load messages directly
+  const messages = await loadMessages(locale)
 
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
