@@ -1,4 +1,4 @@
-import { imageHosts } from './image-hosts.config.js';
+import { imageHosts } from './image-hosts.config.mjs';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./next-intl.config.ts');
@@ -25,19 +25,7 @@ const nextConfig = {
       },
     ];
   },
-  webpack(
-    config,
-    {
-      dev: dev
-    }
-  ) {
-    config.module.rules.push({
-      test: /\.(jsx|tsx)$/,
-      exclude: [/node_modules/],
-      use: [{
-        loader: '@dhiwise/component-tagger/nextLoader',
-      }],
-    });
+  webpack(config, { dev }) {
     if (dev) {
       const ignoredPaths = (process.env.WATCH_IGNORED_PATHS || '')
         .split(',')

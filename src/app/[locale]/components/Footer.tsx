@@ -5,7 +5,6 @@ import AppLogo from '@/components/ui/AppLogo'
 const Footer: React.FC = () => {
   const t = useTranslations('footer')
   const commonT = useTranslations('common')
-  const navT = useTranslations('nav')
 
   return (
     <footer className="border-t border-white/5 py-8 px-6">
@@ -13,14 +12,16 @@ const Footer: React.FC = () => {
         {/* Logo + copyright */}
         <div className="flex items-center gap-4">
           <AppLogo size={20} iconName="HeartIcon" text={commonT('appName')} className="text-signal" />
-          <span className="text-sm text-titanium/40 font-medium">{t('copyright')}</span>
+          <span className="text-sm text-titanium/40 font-medium">
+            © {new Date().getFullYear()} {t('copyrightCompany')}
+          </span>
         </div>
 
-        {/* Links */}
+        {/* Links — all labels come from the footer namespace */}
         <nav className="flex items-center gap-6 text-sm font-medium text-titanium/40">
-          {['features', 'hipaa', 'privacy', 'terms'].map((link) => (
+          {(['features', 'hipaa', 'privacy', 'terms'] as const).map((link) => (
             <a key={link} href="#" className="hover:text-titanium transition-colors duration-200">
-              {navT(link as any)}
+              {t(link)}
             </a>
           ))}
         </nav>

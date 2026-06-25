@@ -106,7 +106,7 @@
     }
   },
   "footer": {
-    "copyright": "© 2026 Recover Health, Inc.",
+    "copyrightCompany": "Recover Health, Inc.",
     "features": "Features",
     "hipaa": "HIPAA",
     "privacy": "Privacy",

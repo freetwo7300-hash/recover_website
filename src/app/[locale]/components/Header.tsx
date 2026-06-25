@@ -13,8 +13,9 @@ const Header: React.FC = () => {
   const [mounted, setMounted] = useState(false)
   const locale = useLocale()
   const pathname = usePathname()
-  const t = useTranslations('common')
-  const navT = useTranslations('nav')
+  // All navigation labels live in the 'navigation' namespace
+  const navT = useTranslations('navigation')
+  const commonT = useTranslations('common')
 
   useEffect(() => {
     setMounted(true)
@@ -26,8 +27,6 @@ const Header: React.FC = () => {
     window.location.href = pathSegments.join('/')
   }
 
-  if (!mounted) return null
-
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -36,97 +35,102 @@ const Header: React.FC = () => {
           <AppLogo
             size={28}
             iconName="HeartIcon"
-            text={t('appName')}
+            text={commonT('appName')}
             className="text-signal"
           />
         </Link>
 
         {/* Nav links — desktop */}
         <nav className="hidden md:flex items-center gap-8">
-          {['features', 'integrations', 'pricing', 'caseStudies'].map((link) => (
+          {(['features', 'integrations', 'pricing', 'caseStudies'] as const).map((link) => (
             <a
               key={link}
               href="#"
               className="text-sm font-medium text-titanium/60 hover:text-titanium transition-colors duration-200"
             >
-              {navT(link as any)}
+              {navT(link)}
             </a>
           ))}
         </nav>
 
         {/* CTA */}
         <div className="flex items-center gap-3">
-          {/* Language Toggle */}
-          <div className="relative">
-            <button
-              onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="flex items-center gap-1 text-sm font-medium text-titanium/60 hover:text-titanium px-3 py-2 rounded-lg hover:bg-white/5 transition-all"
-              aria-label="Toggle language"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                <path d="M2 12h20"/>
-              </svg>
-              <span>{locale === 'ar' ? 'العربية' : 'EN'}</span>
-            </button>
-
-            {langMenuOpen && (
-              <div className="absolute right-0 top-full mt-2 bg-cockpit border border-white/10 rounded-lg overflow-hidden z-50 min-w-32">
-                <button
-                  onClick={() => {
-                    switchLocale('en')
-                    setLangMenuOpen(false)
-                  }}
-                  className={`w-full text-left px-4 py-2 text-sm ${
-                    locale === 'en'
-                      ? 'bg-signal/20 text-signal'
-                      : 'text-titanium/60 hover:text-titanium hover:bg-white/5'
-                  } transition-colors`}
-                >
-                  English
-                </button>
-                <button
-                  onClick={() => {
-                    switchLocale('ar')
-                    setLangMenuOpen(false)
-                  }}
-                  className={`w-full text-left px-4 py-2 text-sm ${
-                    locale === 'ar'
-                      ? 'bg-signal/20 text-signal'
-                      : 'text-titanium/60 hover:text-titanium hover:bg-white/5'
-                  } transition-colors`}
-                >
-                  العربية
-                </button>
-              </div>
-            )}
-          </div>
-
-          {session ? (
-            <>
-              <Link href={`/${locale}/dashboard`} className="hidden md:block text-sm font-medium text-titanium/60 hover:text-titanium transition-colors">
-                {t('dashboard')}
-              </Link>
+          {/* Language Toggle — only render after mount to avoid hydration mismatch */}
+          {mounted && (
+            <div className="relative">
               <button
-                onClick={() => signOut({ callbackUrl: `/${locale}` })}
-                className="bg-signal/20 hover:bg-signal/30 text-signal text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="flex items-center gap-1 text-sm font-medium text-titanium/60 hover:text-titanium px-3 py-2 rounded-lg hover:bg-white/5 transition-all"
+                aria-label="Toggle language"
               >
-                {t('signOut')}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                  <path d="M2 12h20"/>
+                </svg>
+                <span>{locale === 'ar' ? 'العربية' : 'EN'}</span>
               </button>
-            </>
-          ) : (
-            <>
-              <Link href={`/${locale}/auth/signin`} className="hidden md:block text-sm font-medium text-titanium/60 hover:text-titanium transition-colors">
-                {t('signIn')}
-              </Link>
-              <Link
-                href={`/${locale}/auth/signup`}
-                className="bg-signal text-cockpit text-sm font-bold px-4 py-2 rounded-lg hover:bg-signal/90 transition-all duration-200 signal-glow"
-              >
-                {t('getStarted')}
-              </Link>
-            </>
+
+              {langMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 bg-cockpit border border-white/10 rounded-lg overflow-hidden z-50 min-w-32">
+                  <button
+                    onClick={() => {
+                      switchLocale('en')
+                      setLangMenuOpen(false)
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm ${
+                      locale === 'en'
+                        ? 'bg-signal/20 text-signal'
+                        : 'text-titanium/60 hover:text-titanium hover:bg-white/5'
+                    } transition-colors`}
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => {
+                      switchLocale('ar')
+                      setLangMenuOpen(false)
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm ${
+                      locale === 'ar'
+                        ? 'bg-signal/20 text-signal'
+                        : 'text-titanium/60 hover:text-titanium hover:bg-white/5'
+                    } transition-colors`}
+                  >
+                    العربية
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Auth buttons — keys live in navigation namespace */}
+          {mounted && (
+            session ? (
+              <>
+                <Link href={`/${locale}/dashboard`} className="hidden md:block text-sm font-medium text-titanium/60 hover:text-titanium transition-colors">
+                  {navT('dashboard')}
+                </Link>
+                <button
+                  onClick={() => signOut({ callbackUrl: `/${locale}` })}
+                  className="bg-signal/20 hover:bg-signal/30 text-signal text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                >
+                  {navT('signOut')}
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href={`/${locale}/auth/signin`} className="hidden md:block text-sm font-medium text-titanium/60 hover:text-titanium transition-colors">
+                  {navT('signIn')}
+                </Link>
+                <Link
+                  href={`/${locale}/auth/signup`}
+                  className="bg-signal text-cockpit text-sm font-bold px-4 py-2 rounded-lg hover:bg-signal/90 transition-all duration-200 signal-glow"
+                >
+                  {navT('getStarted')}
+                </Link>
+              </>
+            )
           )}
 
           {/* Mobile hamburger */}
@@ -148,22 +152,22 @@ const Header: React.FC = () => {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden mt-3 mx-0 carbon-card rounded-xl p-4 flex flex-col gap-3">
-          {['features', 'integrations', 'pricing', 'caseStudies'].map((link) => (
+          {(['features', 'integrations', 'pricing', 'caseStudies'] as const).map((link) => (
             <a key={link} href="#" className="text-sm font-medium text-titanium/60 hover:text-titanium py-1">
-              {navT(link as any)}
+              {navT(link)}
             </a>
           ))}
           {session && (
             <>
               <hr className="my-2 border-white/10" />
               <Link href={`/${locale}/dashboard`} className="text-sm font-medium text-titanium/60 hover:text-titanium py-1">
-                {t('dashboard')}
+                {navT('dashboard')}
               </Link>
               <button
                 onClick={() => signOut({ callbackUrl: `/${locale}` })}
                 className="text-left text-sm font-medium text-signal py-1"
               >
-                {t('signOut')}
+                {navT('signOut')}
               </button>
             </>
           )}

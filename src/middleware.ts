@@ -1,26 +1,17 @@
-import { auth } from '@/lib/auth'
-import { NextRequest, NextResponse } from 'next/server'
+import createMiddleware from 'next-intl/middleware'
+import { locales, defaultLocale } from '../i18n.config'
 
-const locales = ['en', 'ar']
+// next-intl middleware automatically sets the locale header that
+// getRequestConfig reads via `requestLocale`. Without this, requestLocale
+// is always undefined, causing "No locale was returned" errors.
+const intlMiddleware = createMiddleware({
+  locales,
+  defaultLocale,
+  localePrefix: 'always',
+})
 
-export async function middleware(request: NextRequest) {
-  // Get the pathname
-  const pathname = request.nextUrl.pathname
-
-  // Check if pathname starts with a locale
-  const pathnameHasLocale = locales.some(locale => 
-    pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  )
-
-  // If pathname doesn't have a locale, redirect to /en + pathname
-  if (!pathnameHasLocale && pathname !== '/') {
-    return NextResponse.redirect(
-      new URL(`/en${pathname}`, request.url)
-    )
-  }
-
-  // NextAuth handles authentication
-  return NextResponse.next()
+export function middleware(request: import('next/server').NextRequest) {
+  return intlMiddleware(request)
 }
 
 export const config = {
