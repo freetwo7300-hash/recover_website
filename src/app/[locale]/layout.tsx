@@ -2,7 +2,7 @@ import React from 'react'
 import type { Metadata, Viewport } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
+import { getMessages, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { locales } from '../../../i18n.config'
 import '../../styles/tailwind.css'
@@ -44,7 +44,10 @@ export default async function RootLayout({
     notFound()
   }
 
-  // Get messages using RequestConfig which auto-resolves from middleware context
+  // Set request locale for next-intl server functions
+  setRequestLocale(locale)
+
+  // Get messages - next-intl will use the locale set above
   const messages = await getMessages()
 
   return (
