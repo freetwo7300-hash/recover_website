@@ -1,12 +1,15 @@
-import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import HeroSection from './components/HeroSection';
-import FeatureMatrix from './components/FeatureMatrix';
-import StatsSection from './components/StatsSection';
-import IntegrationsSection from './components/IntegrationsSection';
-import LeadFormSection from './components/LeadFormSection';
-import ScrollController from './components/ScrollController';
+import React from 'react'
+import Header from '@/app/[locale]/components/Header'
+import Footer from '@/app/[locale]/components/Footer'
+import HeroSection from './components/HeroSection'
+import FeatureMatrix from './components/FeatureMatrix'
+import StatsSection from './components/StatsSection'
+import IntegrationsSection from './components/IntegrationsSection'
+import LeadFormSection from './components/LeadFormSection'
+import ScrollController from './components/ScrollController'
+
+// Use dynamic rendering during build to avoid next-intl SSG issues
+export const dynamic = 'force-dynamic'
 
 export default function HomePage() {
   return (
@@ -39,5 +42,5 @@ export default function HomePage() {
 
       {/* Sticky bottom CTA — rendered by ScrollController */}
     </div>
-  );
+  )
 }

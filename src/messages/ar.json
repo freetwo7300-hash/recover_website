@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "استعادة",
+    "tagline": "استرجع كل مريض مهجور",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجاح",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تحرير",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق"
+  },
+  "navigation": {
+    "home": "الصفحة الرئيسية",
+    "features": "الميزات",
+    "integrations": "التكاملات",
+    "pricing": "الأسعار",
+    "caseStudies": "دراسات الحالة",
+    "dashboard": "لوحة التحكم",
+    "settings": "الإعدادات",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "signOut": "تسجيل الخروج",
+    "getStarted": "ابدأ الآن",
+    "seeRecoveryRate": "شاهد معدل الاستعادة"
+  },
+  "auth": {
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "welcome": "أهلا وسهلا بعودتك إلى استعادة",
+    "getStarted": "ابدأ مع استعادة اليوم",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "organizationName": "اسم المنظمة",
+    "signingIn": "جاري تسجيل الدخول...",
+    "creatingAccount": "جاري إنشاء الحساب...",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+    "orContinueWith": "أو المتابعة مع",
+    "signInWithGoogle": "تسجيل الدخول عبر Google",
+    "signUpWithGoogle": "الاشتراك عبر Google",
+    "invalidEmailOrPassword": "بريد إلكتروني أو كلمة مرور غير صحيح",
+    "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+    "passwordMinLength": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل",
+    "allFieldsRequired": "جميع الحقول مطلوبة",
+    "emailAlreadyRegistered": "البريد الإلكتروني مسجل بالفعل",
+    "accountCreatedSuccessfully": "تم إنشاء الحساب بنجاح",
+    "tryAgain": "حاول مرة أخرى",
+    "trySigningInAgain": "حاول تسجيل الدخول مرة أخرى",
+    "createNewAccount": "إنشاء حساب جديد",
+    "backToHome": "العودة إلى الصفحة الرئيسية",
+    "authenticationError": "خطأ المصادقة",
+    "signInFailed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى."
+  },
+  "dashboard": {
+    "dashboard": "لوحة التحكم",
+    "welcomeBack": "أهلا بعودتك",
+    "yourProfile": "ملفك الشخصي",
+    "organization": "المنظمة",
+    "email": "البريد الإلكتروني",
+    "name": "الاسم",
+    "role": "الدور",
+    "organizationName": "اسم المنظمة",
+    "organizationSlug": "معرف المنظمة",
+    "created": "تم الإنشاء",
+    "notSet": "لم يتم التعيين"
+  },
+  "errors": {
+    "pageNotFound": "الصفحة غير موجودة",
+    "oopsWeLostaOne": "عذرا! فقدنا هذه الصفحة",
+    "pageNotFoundDescription": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها. دعنا نعيدك إلى المسار الصحيح.",
+    "somethingWentWrong": "حدث خطأ ما",
+    "unexpectedError": "واجهنا خطأ غير متوقع. تم إخطار فريقنا ونحن نعمل على إصلاحه.",
+    "goBack": "رجوع",
+    "toDashboard": "الذهاب إلى لوحة التحكم",
+    "errorId": "معرف الخطأ"
+  },
+  "home": {
+    "hero": {
+      "title": "استرجع كل مريض مهجور",
+      "description": "يرسل استعادة تسلسلات بريد إلكترونية متوافقة مع HIPAA في اللحظة التي يهجر فيها المريض حجزًا أو تسجيلاً أو إعادة ملء - مما يحول فجوات الرعاية إلى إيرادات قابلة للاسترجاع لمنصات الطب عن بعد والمستشفيات والعيادات.",
+      "cta": "شاهد معدل الاستعادة",
+      "demo": "عرض توضيحي مباشر"
+    },
+    "features": {
+      "title": "ميزات قوية",
+      "description": "كل ما تحتاجه لاستعادة المرضى المهجورين"
+    },
+    "integrations": {
+      "title": "يعمل مع منصتك",
+      "description": "يتكامل مع المنصات الرائدة في الرعاية الصحية"
+    },
+    "stats": {
+      "recovery": "معدل استعادة المرضى",
+      "efficiency": "وقت الإعداد",
+      "support": "منصات الرعاية الصحية المدعومة"
+    },
+    "cta": {
+      "title": "ابدأ باستعادة المرضى اليوم",
+      "description": "انضم إلى مئات منظمات الرعاية الصحية في تقليل فجوات الرعاية",
+      "button": "شاهد معدل الاستعادة"
+    }
+  },
+  "footer": {
+    "copyrightCompany": "Recover Health, Inc.",
+    "features": "الميزات",
+    "hipaa": "HIPAA",
+    "privacy": "الخصوصية",
+    "terms": "الشروط"
+  }
+}

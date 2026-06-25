@@ -1,0 +1,192 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Organization model for multi-tenant support
+model Organization {
+  id    String     @id @default(cuid())
+  name  String
+  slug  String     @unique
+  
+  users User[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("organizations")
+}
+
+// Role enum for RBAC
+enum Role {
+  ADMIN    // Full access to organization
+  MANAGER  // Can manage team members
+  MEMBER   // Can access organization resources
+  GUEST    // Read-only access
+}
+
+// User model with NextAuth integration
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  image         String?
+  emailVerified DateTime?
+  passwordHash  String?   // For credentials provider
+  role          Role      @default(MEMBER)
+  
+  // Multi-tenant
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  // NextAuth relations
+  accounts      Account[]
+  sessions      Session[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("users")
+}
+
+// NextAuth Account model (OAuth/external providers)
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String  // "oauth" or "credentials"
+  provider           String  // "google", "credentials", etc.
+  providerAccountId  String
+  
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+// NextAuth Session model (JWT sessions or database sessions)
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("sessions")
+}
+
+// NextAuth Verification Token model (for magic links, email verification)
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ============ Content Models ============
+
+// Feature model
+model Feature {
+  id          String   @id @default(cuid())
+  featureId   String   @unique // e.g., 'hipaa', 'slots'
+  title       String
+  description String   @db.Text
+  animClass   String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("features")
+}
+
+// Integration/EHR System model
+model Integration {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  icon      String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("integrations")
+}
+
+// Stat model
+model Stat {
+  id        String   @id @default(cuid())
+  value     String
+  suffix    String?
+  label     String
+  sublabel  String?
+  color     String   @default("text-signal")
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("stats")
+}
+
+// Metric model
+model Metric {
+  id        String   @id @default(cuid())
+  label     String
+  recovered Int
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("metrics")
+}
+
+// Certification/Badge model
+model Certification {
+  id        String   @id @default(cuid())
+  icon      String
+  label     String
+  sublabel  String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("certifications")
+}
+
+// Vertical (form options) model
+model Vertical {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("verticals")
+}

@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "Recover",
+    "tagline": "Win Back Every Abandoned Patient",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "navigation": {
+    "home": "Home",
+    "features": "Features",
+    "integrations": "Integrations",
+    "pricing": "Pricing",
+    "caseStudies": "Case Studies",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "getStarted": "Get Started",
+    "seeRecoveryRate": "See Recovery Rate"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Create Account",
+    "welcome": "Welcome back to Recover",
+    "getStarted": "Get started with Recover today",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "organizationName": "Organization Name",
+    "signingIn": "Signing in...",
+    "creatingAccount": "Creating account...",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "orContinueWith": "Or continue with",
+    "signInWithGoogle": "Sign in with Google",
+    "signUpWithGoogle": "Sign up with Google",
+    "invalidEmailOrPassword": "Invalid email or password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "passwordMinLength": "Password must be at least 8 characters",
+    "allFieldsRequired": "All fields are required",
+    "emailAlreadyRegistered": "Email already registered",
+    "accountCreatedSuccessfully": "Account created successfully",
+    "tryAgain": "Try Again",
+    "trySigningInAgain": "Try Signing In Again",
+    "createNewAccount": "Create New Account",
+    "backToHome": "Back to Home",
+    "authenticationError": "Authentication Error",
+    "signInFailed": "Sign in failed. Please try again."
+  },
+  "dashboard": {
+    "dashboard": "Dashboard",
+    "welcomeBack": "Welcome back",
+    "yourProfile": "Your Profile",
+    "organization": "Organization",
+    "email": "Email",
+    "name": "Name",
+    "role": "Role",
+    "organizationName": "Organization Name",
+    "organizationSlug": "Organization Slug",
+    "created": "Created",
+    "notSet": "Not set"
+  },
+  "errors": {
+    "pageNotFound": "Page Not Found",
+    "oopsWeLostaOne": "Oops! We Lost This One",
+    "pageNotFoundDescription": "The page you're looking for doesn't exist or has been moved. Let's get you back on track.",
+    "somethingWentWrong": "Something Went Wrong",
+    "unexpectedError": "We encountered an unexpected error. Our team has been notified and we're working on a fix.",
+    "goBack": "Go Back",
+    "toDashboard": "Go to Dashboard",
+    "errorId": "Error ID"
+  },
+  "home": {
+    "hero": {
+      "title": "Win Back Every Abandoned Patient",
+      "description": "Recover fires HIPAA-compliant email sequences the moment a patient abandons a booking, enrollment, or refill — turning care gaps into recovered revenue for telehealth, hospital, and dental platforms.",
+      "cta": "See Recovery Rate",
+      "demo": "Live Demo"
+    },
+    "features": {
+      "title": "Powerful Features",
+      "description": "Everything you need to recover abandoned patients"
+    },
+    "integrations": {
+      "title": "Works with Your Stack",
+      "description": "Integrates with leading healthcare platforms"
+    },
+    "stats": {
+      "recovery": "Patient Recovery Rate",
+      "efficiency": "Time to Setup",
+      "support": "Healthcare Platforms Supported"
+    },
+    "cta": {
+      "title": "Start Recovering Patients Today",
+      "description": "Join hundreds of healthcare organizations reducing care gaps",
+      "button": "See Recovery Rate"
+    }
+  },
+  "footer": {
+    "copyrightCompany": "Recover Health, Inc.",
+    "features": "Features",
+    "hipaa": "HIPAA",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  }
+}

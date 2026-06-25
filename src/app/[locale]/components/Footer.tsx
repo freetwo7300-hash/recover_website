@@ -1,21 +1,27 @@
-import React from 'react';
-import AppLogo from '@/components/ui/AppLogo';
+import React from 'react'
+import { useTranslations } from 'next-intl'
+import AppLogo from '@/components/ui/AppLogo'
 
 const Footer: React.FC = () => {
+  const t = useTranslations('footer')
+  const commonT = useTranslations('common')
+
   return (
     <footer className="border-t border-white/5 py-8 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Logo + copyright */}
         <div className="flex items-center gap-4">
-          <AppLogo size={20} iconName="HeartIcon" text="Recover" className="text-signal" />
-          <span className="text-sm text-titanium/40 font-medium">© 2026 Recover Health, Inc.</span>
+          <AppLogo size={20} iconName="HeartIcon" text={commonT('appName')} className="text-signal" />
+          <span className="text-sm text-titanium/40 font-medium">
+            © {new Date().getFullYear()} {t('copyrightCompany')}
+          </span>
         </div>
 
-        {/* Links */}
+        {/* Links — all labels come from the footer namespace */}
         <nav className="flex items-center gap-6 text-sm font-medium text-titanium/40">
-          {['Features', 'HIPAA', 'Privacy', 'Terms'].map((link) => (
+          {(['features', 'hipaa', 'privacy', 'terms'] as const).map((link) => (
             <a key={link} href="#" className="hover:text-titanium transition-colors duration-200">
-              {link}
+              {t(link)}
             </a>
           ))}
         </nav>
@@ -37,7 +43,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

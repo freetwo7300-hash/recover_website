@@ -1,9 +1,13 @@
-import { imageHosts } from './image-hosts.config.js';
+import { imageHosts } from './image-hosts.config.mjs';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./next-intl.config.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   productionBrowserSourceMaps: true,
-  distDir: process.env.DIST_DIR || '.next',  typescript: {
+  distDir: process.env.DIST_DIR || '.next',
+  typescript: {
     ignoreBuildErrors: true,
   },
   eslint: {
@@ -16,24 +20,12 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/home',
+        destination: '/en',
         permanent: false,
       },
     ];
   },
-  webpack(
-    config,
-    {
-      dev: dev
-    }
-  ) {
-    config.module.rules.push({
-      test: /\.(jsx|tsx)$/,
-      exclude: [/node_modules/],
-      use: [{
-        loader: '@dhiwise/component-tagger/nextLoader',
-      }],
-    });
+  webpack(config, { dev }) {
     if (dev) {
       const ignoredPaths = (process.env.WATCH_IGNORED_PATHS || '')
         .split(',')
@@ -49,4 +41,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
