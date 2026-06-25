@@ -1,16 +1,33 @@
 import { auth } from '@/lib/auth'
+import { NextRequest, NextResponse } from 'next/server'
 
-export const middleware = auth((req) => {
-  // NextAuth and next-intl plugin handle routing automatically
-  // This middleware is minimal - just ensure auth() is called
-  return
-})
+const locales = ['en', 'ar']
+
+export function middleware(request: NextRequest) {
+  // Get the pathname
+  const pathname = request.nextUrl.pathname
+
+  // Check if pathname starts with a locale
+  const pathnameHasLocale = locales.some(locale => 
+    pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  )
+
+  // If pathname doesn't have a locale, redirect to /en + pathname
+  if (!pathnameHasLocale && pathname !== '/') {
+    return NextResponse.redirect(
+      new URL(`/en${pathname}`, request.url)
+    )
+  }
+
+  // Run NextAuth middleware
+  return auth((req) => {
+    return NextResponse.next()
+  })(request as any)
+}
 
 export const config = {
   matcher: [
-    // Protect dashboard and settings routes
-    '/dashboard/:path*',
-    '/settings/:path*',
-    '/api/protected/:path*',
+    // Skip API routes, static files, and _next
+    '/((?!api|_next|_vercel|.*\\..*).*)',
   ],
 }
