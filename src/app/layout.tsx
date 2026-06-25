@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import '../styles/tailwind.css';
 
 export const viewport: Viewport = {
@@ -24,10 +25,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}
+      <body>
+        <SessionProvider>
+          {children}
+        </SessionProvider>
 
         <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Frecover178830back.builtwithrocket.new&_be=https%3A%2F%2Fappanalytics.rocket.new&_v=0.1.18" />
-        <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2" /></body>
+        <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2" />
+      </body>
     </html>
   );
 }
