@@ -28,21 +28,24 @@ export function generateStaticParams() {
 
 interface LayoutProps {
   children: React.ReactNode
-  params: {
+  params: Promise<{
     locale: string
-  }
+  }>
 }
 
 export default async function RootLayout({
   children,
-  params: { locale },
+  params,
 }: LayoutProps) {
+  // Await params before using in Next.js 15+
+  const { locale } = await params
+
   if (!locales.includes(locale as any)) {
     notFound()
   }
 
-  // Use await to properly handle getMessages during SSG
-  const messages = await getMessages({ locale } as any)
+  // Get messages using RequestConfig which auto-resolves from middleware context
+  const messages = await getMessages()
 
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
