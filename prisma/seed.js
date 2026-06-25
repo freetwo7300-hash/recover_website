@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient()
 
@@ -88,9 +88,8 @@ async function seedStats() {
     { value: '$28.4M', suffix: '', label: 'Revenue recovered', sublabel: 'in 2024 alone', color: 'text-titanium', order: 3 },
   ]
 
-  // Delete existing stats and recreate
   await prisma.stat.deleteMany({})
-  
+
   for (const stat of stats) {
     await prisma.stat.create({ data: stat })
   }
@@ -105,9 +104,8 @@ async function seedMetrics() {
     { label: 'Vision exams', recovered: 22, order: 3 },
   ]
 
-  // Delete existing metrics and recreate
   await prisma.metric.deleteMany({})
-  
+
   for (const metric of metrics) {
     await prisma.metric.create({ data: metric })
   }
@@ -122,9 +120,8 @@ async function seedCertifications() {
     { icon: '🔐', label: 'AES-256 Encryption', sublabel: 'At rest & transit', order: 3 },
   ]
 
-  // Delete existing certifications and recreate
   await prisma.certification.deleteMany({})
-  
+
   for (const cert of certifications) {
     await prisma.certification.create({ data: cert })
   }

@@ -99,3 +99,94 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
+
+// ============ Content Models ============
+
+// Feature model
+model Feature {
+  id          String   @id @default(cuid())
+  featureId   String   @unique // e.g., 'hipaa', 'slots'
+  title       String
+  description String   @db.Text
+  animClass   String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("features")
+}
+
+// Integration/EHR System model
+model Integration {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  icon      String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("integrations")
+}
+
+// Stat model
+model Stat {
+  id        String   @id @default(cuid())
+  value     String
+  suffix    String?
+  label     String
+  sublabel  String?
+  color     String   @default("text-signal")
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("stats")
+}
+
+// Metric model
+model Metric {
+  id        String   @id @default(cuid())
+  label     String
+  recovered Int
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("metrics")
+}
+
+// Certification/Badge model
+model Certification {
+  id        String   @id @default(cuid())
+  icon      String
+  label     String
+  sublabel  String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("certifications")
+}
+
+// Vertical (form options) model
+model Vertical {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("verticals")
+}
