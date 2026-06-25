@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 4028",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next dev -p 4028",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md,json}\"",
     "serve": "next start",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
